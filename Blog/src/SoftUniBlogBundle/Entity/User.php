@@ -52,6 +52,12 @@ class User implements UserInterface
     private $articles;
 
     /**
+     * @var ArrayCollection
+
+     */
+    private $roles;
+
+    /**
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getArticles ()
@@ -153,24 +159,37 @@ class User implements UserInterface
     }
 
     /**
-     * Returns the roles granted to the user.
      *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
+     * @ORM\ManyToMany(targetEntity="SoftUniBlogBundle\Entity\Role")
      *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
+     * @ORM\JoinTable(name="users_roles",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
+     *     )
+     * @return ArrayCollection
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $stringRoles = [];
+
+        foreach ($this->roles as $role)
+        {
+            /** @var $role Role */
+            $stringRoles[] = $role->getRole();
+        }
+
+        return $stringRoles;
+    }
+
+    /**
+     * @param \SoftUniBlogBundle\Entity\Role $role
+     * @return User
+     */
+    public function addRole(Role $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
     }
 
     /**
@@ -197,6 +216,7 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->roles = new ArrayCollection();
         $this->articles = new ArrayCollection();
     }
 
