@@ -64,8 +64,14 @@ class ArticleController extends Controller
     public function editArticle($id, Request $request)
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        $currentUser = $this->getUser();
 
         if ($article === null)
+        {
+            return $this->redirectToRoute('blog_index');
+        }
+
+        if (!$currentUser->isAuthor($article) && !$currentUser->isAdmin())
         {
             return $this->redirectToRoute('blog_index');
         }
@@ -99,8 +105,14 @@ class ArticleController extends Controller
     public function delete($id, Request $request)
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        $currentUser = $this->getUser();
 
         if ($article === null)
+        {
+            return $this->redirectToRoute('blog_index');
+        }
+
+        if (!$currentUser->isAuthor($article) && !$currentUser->isAdmin())
         {
             return $this->redirectToRoute('blog_index');
         }

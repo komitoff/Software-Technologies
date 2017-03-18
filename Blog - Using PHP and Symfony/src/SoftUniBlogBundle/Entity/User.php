@@ -53,7 +53,12 @@ class User implements UserInterface
 
     /**
      * @var ArrayCollection
-
+     *
+     * @ORM\ManyToMany(targetEntity="SoftUniBlogBundle\Entity\Role")
+     * @ORM\JoinTable(name="users_roles",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={ @ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *     )
      */
     private $roles;
 
@@ -159,13 +164,6 @@ class User implements UserInterface
     }
 
     /**
-     *
-     * @ORM\ManyToMany(targetEntity="SoftUniBlogBundle\Entity\Role")
-     *
-     * @ORM\JoinTable(name="users_roles",
-     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
-     *     )
      * @return ArrayCollection
      */
     public function getRoles()
@@ -212,6 +210,23 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->email;
+    }
+
+    /**
+     * @param Article $article
+     * @return bool
+     */
+    public function isAuthor (Article $article)
+    {
+        return $article->getAuthorId() == $this->getId();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return in_array("ROLE_ADMIN", $this->getRoles());
     }
 
     public function __construct()
