@@ -3,7 +3,7 @@ function solve(args) {
 
     for (let i = 0; i < args.length; i ++) {
         let towns = JSON.parse(args[i]);
-        let name = towns.name;
+        let name = towns.town;
         let income = towns.income;
 
         if (result[name] || result[name]) {
@@ -14,7 +14,10 @@ function solve(args) {
         }
     }
 
-    console.log(result);
+    let sortedTowns = Object.keys(result).sort();
+    for (let i = 0; i < sortedTowns.length; i ++) {
+        console.log(`${sortedTowns[i]} -> ${result[sortedTowns[i]]}`);
+    }
 }
 
 solve ([
