@@ -80,3 +80,5 @@ C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCM
 C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCMovie\MVCMovie\obj\Debug\MVCMovie.csprojResolveAssemblyReference.cache
 C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCMovie\MVCMovie\obj\Debug\MVCMovie.dll
 C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCMovie\MVCMovie\obj\Debug\MVCMovie.pdb
+C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCMovie\MVCMovie\obj\Debug\MVCMovie.Migrations.Initial.resources
+C:\Users\User\Desktop\Technologies\Software-Technologies\MVC Movie Tutorial\MVCMovie\MVCMovie\obj\Debug\MVCMovie.csproj.GenerateResource.Cache

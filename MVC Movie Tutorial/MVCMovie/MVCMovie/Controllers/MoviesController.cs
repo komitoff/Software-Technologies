@@ -18,8 +18,9 @@ namespace MVCMovie.Controllers
         public ActionResult Index(string id)
         {
             string searchString = id;
-            var movies = from m in db.Movies
-                         select m;
+            //var movies = from m in db.Movies
+            //             select m;
+            var movies = db.Movies.Select(m => m);
             if (!String.IsNullOrEmpty(searchString))
             {
                 movies = movies.Where(s => s.Title.ToLower().Contains(searchString.ToLower()));
