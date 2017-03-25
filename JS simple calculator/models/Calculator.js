@@ -3,7 +3,7 @@ function Calculator (leftOperand, rightOperand, operator) {
     this.rightOperand = rightOperand;
     this.operator = operator;
 
-    this.calculatorResult() = function() {
+    this.calculateResult = function() {
         let result = 0;
 
         switch (this.operator) {
@@ -24,3 +24,5 @@ function Calculator (leftOperand, rightOperand, operator) {
         return result;
     }
 }
+
+module.exports = Calculator;
