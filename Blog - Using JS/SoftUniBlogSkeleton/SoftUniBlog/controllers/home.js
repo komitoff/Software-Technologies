@@ -6,7 +6,5 @@ module.exports = {
       res.render('home/index', {articles: articles});
       console.log(articles);
     }); 
-
-    //res.render('home/index');
   }
 };
