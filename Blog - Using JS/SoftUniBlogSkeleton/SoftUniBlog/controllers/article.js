@@ -76,5 +76,13 @@ module.exports = {
                 res.redirect(`/article/details/${id}`);
             })
         }
+    },
+
+    deleteGet: (req, res) => {
+        let id = req.params.id;
+
+        Article.findById(id).then(article => {
+            res.render('article/delete', article);
+        });
     }
 };
