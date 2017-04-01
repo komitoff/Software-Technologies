@@ -19,7 +19,9 @@ module.exports = {
         }
 
         if (errorMsg) {
-            res.render('article/create', {error: errorMsg});
+            res.render('article/create', {
+                error: errorMsg
+            });
             return;
         }
 
@@ -27,13 +29,13 @@ module.exports = {
 
         Article.create(articleArgs).then(article => {
             req.user.articles.push(article.id);
-            res.user.save(err => {
+            req.user.save(err => {
                 if (err) {
                     res.redirect('/', {error: err.message})
                 } else {
                     res.redirect('/');
                 }
-            })
+            });
         });
     }, 
     

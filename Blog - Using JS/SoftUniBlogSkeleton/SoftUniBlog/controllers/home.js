@@ -1,5 +1,12 @@
+const Article = require('mongoose').model('Article');
+
 module.exports = {
   index: (req, res) => {
-      res.render('home/index');
+    Article.find({}).limit(6).populate('author').then(articles => {
+      res.render('home/index', {articles: articles});
+      console.log(articles);
+    }); 
+
+    //res.render('home/index');
   }
 };
