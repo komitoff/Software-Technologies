@@ -4,6 +4,7 @@ module.exports = {
     createGet: (req, res) => {
         res.render('article/create');
     }, 
+
     createPost: (req, res) => {
         let articleArgs = req.body;
 
@@ -35,6 +36,7 @@ module.exports = {
             })
         });
     }, 
+    
     details: (req, res) => {
         let id = req.params.id;
 
@@ -42,4 +44,4 @@ module.exports = {
             res.render('article/details', article)
         })
     }
-}
+};
