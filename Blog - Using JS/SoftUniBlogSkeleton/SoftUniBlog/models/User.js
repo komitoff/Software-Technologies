@@ -6,7 +6,8 @@ let userSchema = mongoose.Schema(
         email: {type: String, required: true, unique: true},
         passwordHash: {type: String, required: true},
         fullName: {type: String, required: true},
-        articles: {type: [mongoose.Schema.Types.ObjectId], default: []},
+        articles: {type: [mongoose.Schema.Types.ObjectId], ref: 'Article'},
+        role: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         salt: {type: String, required: true}
     }
 );
