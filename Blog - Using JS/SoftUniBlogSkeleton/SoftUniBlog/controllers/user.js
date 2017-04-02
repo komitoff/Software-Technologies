@@ -64,12 +64,17 @@ module.exports = {
                 User.create(userObject).then(user => {
                     req.logIn(user, (err) => {
                         if (err) {
-                            registerArgs.error = err.message;
-                            res.render('user/register', registerArgs);
+                            console.log(err);
+                            res.render('/user/login', {error: err.message});
                             return;
                         }
 
-                        res.redirect('/')
+                        let returnUrl = '/';
+                        if(req.session.returnUrl) {
+                            returnUrl = req.session.returnUrl;
+                            delete req.session.returnUrl;
+                        }
+                        res.redirect(returnUrl);
                     });
                 });
 

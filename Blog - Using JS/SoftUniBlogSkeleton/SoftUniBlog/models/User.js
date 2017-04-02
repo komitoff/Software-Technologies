@@ -25,6 +25,17 @@ userSchema.method ({
        if (!article) {
            return false;
        }
+   },
+
+   isInRole: function (roleName) {
+       return Role.findOne({name: roleName}).then(role => {
+            if(!role) {
+                return false;
+            }
+            
+            let isInRole = this.roles.indexOf(role.id) !== -1;
+            return isInRole;
+       });
    }
 });
 
