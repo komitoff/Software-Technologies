@@ -35,7 +35,7 @@ public class Calculator {
         this.operator = operator;
     }
 
-    public double calculateResult(double leftOperand, double rightOperand, String operator) {
+    public double calculateResult() {
 
         switch (operator) {
             case "+" :
