@@ -18,15 +18,16 @@ public class User {
 
     private Set<Role> roles;
 
-    public User(String email, String fullName, String password) {
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
+    private Set<Article> articles;
 
-        this.roles = new HashSet<>();
+    @OneToMany(mappedBy = "author")
+    public Set<Article> getArticles() {
+        return articles;
     }
 
-    public User() {    }
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +70,21 @@ public class User {
     @JoinTable(name = "users_roles")
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public User(String email, String fullName, String password) {
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+
+        this.roles = new HashSet<>();
+        this.articles = new HashSet<>();
+    }
+
+    //Construtor for Hibernate
+    public User() {
+        this.roles = new HashSet<>();
+        this.articles = new HashSet<>();
     }
 
     public void setRoles(Set<Role> roles) {
