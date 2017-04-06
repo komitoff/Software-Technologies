@@ -1,13 +1,12 @@
 package softuniBlog.bindingModel;
 
-import com.sun.istack.internal.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ArticleBindingModel {
 
-    @NotEmpty
+    @NotNull
     private String title;
-    @NotEmpty
+    @NotNull
     private String content;
 
     public String getTitle() {
