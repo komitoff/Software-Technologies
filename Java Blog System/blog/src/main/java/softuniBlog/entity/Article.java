@@ -62,4 +62,9 @@ public class Article {
     }
 
     public Article() { }
+
+    @Transient
+    public String getSummary() {
+        return this.getContent().substring(0, this.getContent().length()/2) + "....";
+    }
 }
