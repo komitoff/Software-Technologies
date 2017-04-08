@@ -1,7 +1,6 @@
 package softuniBlog.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name="articles")
@@ -57,8 +56,6 @@ public class Article {
         this.title = title;
         this.content = content;
         this.author = author;
-
-
     }
 
     public Article() { }
