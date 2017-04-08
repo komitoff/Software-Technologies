@@ -1,12 +1,12 @@
 package softuniBlog.bindingModel;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ArticleBindingModel {
 
-    @NotNull
+    @Size(min = 1)
     private String title;
-    @NotNull
+    @Size(min = 1)
     private String content;
 
     public String getTitle() {
