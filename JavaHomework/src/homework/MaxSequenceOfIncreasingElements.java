@@ -35,6 +35,5 @@ public class MaxSequenceOfIncreasingElements {
         for (int i = 0; i < maxCount; i++) {
             System.out.printf(mostFrequentElement + " ");
         }
-
     }
 }
