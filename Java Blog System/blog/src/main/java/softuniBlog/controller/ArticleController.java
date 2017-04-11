@@ -51,15 +51,38 @@ public class ArticleController {
     }
 
     @GetMapping("/article/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String edit(@PathVariable Integer id, Model model) {
-        if(this.articleRepository.exists(id)) {
+        if(!this.articleRepository.exists(id)) {
             return "redirect:/";
         }
 
         Article currentArticle = this.articleRepository.findOne(id);
         model.addAttribute("article", currentArticle);
-        model.addAttribute("view", "article/edit/");
+        model.addAttribute("view", "article/edit");
 
         return "base-layout";
+    }
+
+    @PostMapping("/article/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String editProcess(
+            @PathVariable Integer id,
+            ArticleBindingModel articleBindingModel) {
+
+        UserDetails user = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+        Article articleEntity = new Article(
+                articleBindingModel.getTitle(),
+                articleBindingModel.getContent(),
+                userEntity
+        );
+
+        this.articleRepository.saveAndFlush(articleEntity);
+        return "redirect:/article/edit/" + id;
     }
 }
