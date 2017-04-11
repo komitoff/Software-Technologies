@@ -15,6 +15,8 @@ import softuniBlog.entity.User;
 import softuniBlog.repository.ArticleRepository;
 import softuniBlog.repository.UserRepository;
 
+import java.beans.Transient;
+
 @Controller
 public class ArticleController {
 
@@ -107,8 +109,24 @@ public class ArticleController {
         }
 
         Article article = this.articleRepository.findOne(id);
-        this.articleRepository.delete(article);
+        
+        if (!isAdminOrAuthor(article)) {
+            return "redirect:/article/" + id;
+        }
 
+        this.articleRepository.delete(article);
         return "redirect:/";
+    }
+
+    @Transient
+    public boolean isAdminOrAuthor(Article article) {
+        UserDetails user = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+        return userEntity.isAdmin() || userEntity.isAuthor(article);
     }
 }
