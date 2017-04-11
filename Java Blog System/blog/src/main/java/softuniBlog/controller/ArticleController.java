@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import softuniBlog.bindingModel.ArticleBindingModel;
 import softuniBlog.entity.Article;
@@ -47,5 +48,18 @@ public class ArticleController {
 
         this.articleRepository.saveAndFlush(articleEntity);
         return ("redirect:/");
+    }
+
+    @GetMapping("/article/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        if(this.articleRepository.exists(id)) {
+            return "redirect:/";
+        }
+
+        Article currentArticle = this.articleRepository.findOne(id);
+        model.addAttribute("article", currentArticle);
+        model.addAttribute("view", "article/edit/");
+
+        return "base-layout";
     }
 }
