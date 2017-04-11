@@ -59,8 +59,13 @@ public class ArticleController {
             return "redirect:/";
         }
 
-        Article currentArticle = this.articleRepository.findOne(id);
-        model.addAttribute("article", currentArticle);
+        Article article = this.articleRepository.findOne(id);
+
+        if (!isAdminOrAuthor(article)) {
+            return "redirect:/article/" + id;
+        }
+
+        model.addAttribute("article", article);
         model.addAttribute("view", "article/edit");
 
         return "base-layout";
@@ -71,21 +76,18 @@ public class ArticleController {
     public String editProcess(
             @PathVariable Integer id,
             ArticleBindingModel articleBindingModel) {
+        if(!this.articleRepository.exists(id)) {
+            return "redirect:/";
+        }
+        Article article = this.articleRepository.findOne(id);
 
-        UserDetails user = (UserDetails) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        User userEntity = this.userRepository.findByEmail(user.getUsername());
-
-        Article articleEntity = new Article(
-                articleBindingModel.getTitle(),
-                articleBindingModel.getContent(),
-                userEntity
-        );
-
-        this.articleRepository.saveAndFlush(articleEntity);
-        return "redirect:/article/edit/" + id;
+        if (!isAdminOrAuthor(article)) {
+            return "redirect:/article/" + id;
+        }
+        article.setTitle(articleBindingModel.getTitle());
+        article.setContent(articleBindingModel.getContent());
+        this.articleRepository.saveAndFlush(article);
+        return "redirect:/";
     }
 
     @GetMapping("/article/delete/{id}")
@@ -96,6 +98,11 @@ public class ArticleController {
         }
 
         Article article = this.articleRepository.findOne(id);
+
+        if (!isAdminOrAuthor(article)) {
+            return "redirect:/article/"+id;
+        }
+
         model.addAttribute("article", article);
         model.addAttribute("view", "article/delete");
 
@@ -109,7 +116,7 @@ public class ArticleController {
         }
 
         Article article = this.articleRepository.findOne(id);
-        
+
         if (!isAdminOrAuthor(article)) {
             return "redirect:/article/" + id;
         }

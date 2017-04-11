@@ -1,14 +1,17 @@
 package softuniBlog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import softuniBlog.bindingModel.ArticleBindingModel;
 import softuniBlog.entity.Article;
+import softuniBlog.entity.User;
 import softuniBlog.repository.ArticleRepository;
+import softuniBlog.repository.UserRepository;
 
 import javax.persistence.Id;
 import java.util.List;
@@ -18,6 +21,8 @@ public class HomeController {
 
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -32,9 +37,20 @@ public class HomeController {
         if(!this.articleRepository.exists(id)) {
             return "redirect:/";
         }
-        Article currentArticle = this.articleRepository.findOne(id);
+
+        if(!(SecurityContextHolder.getContext().getAuthentication()
+                instanceof AnonymousAuthenticationToken)) {
+            UserDetails user = (UserDetails) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+            User userEntity = this.userRepository.findByEmail(user.getUsername());
+
+            model.addAttribute("user", userEntity);
+        }
+        Article article = this.articleRepository.findOne(id);
         model.addAttribute("view", "article/details");
-        model.addAttribute("article", currentArticle);
+        model.addAttribute("article", article);
         return "base-layout";
     }
 
