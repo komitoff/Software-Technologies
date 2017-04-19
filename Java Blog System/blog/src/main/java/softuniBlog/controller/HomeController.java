@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import softuniBlog.entity.Article;
 import softuniBlog.entity.User;
 import softuniBlog.repository.ArticleRepository;
+import softuniBlog.repository.CommentRepository;
 import softuniBlog.repository.UserRepository;
 
 import javax.persistence.Id;
@@ -23,6 +24,8 @@ public class HomeController {
     private ArticleRepository articleRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -48,7 +51,10 @@ public class HomeController {
 
             model.addAttribute("user", userEntity);
         }
+
         Article article = this.articleRepository.findOne(id);
+        article.setViewedCount(article.getViewedCount() + 1);
+        this.articleRepository.saveAndFlush(article);
         model.addAttribute("view", "article/details");
         model.addAttribute("article", article);
         return "base-layout";

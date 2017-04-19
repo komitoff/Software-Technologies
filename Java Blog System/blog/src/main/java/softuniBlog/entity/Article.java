@@ -10,6 +10,8 @@ public class Article {
 
     private String title;
 
+    private int viewedCount;
+
     private String content;
 
     private User author;
@@ -31,6 +33,15 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Column(nullable = false)
+    public int getViewedCount() {
+        return viewedCount;
+    }
+
+    public void setViewedCount(int viewedCount) {
+        this.viewedCount = viewedCount;
     }
 
     @Column(columnDefinition = "text", nullable = false)
