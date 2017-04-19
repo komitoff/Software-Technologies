@@ -1,4 +1,4 @@
-<main>
+<main xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container body-content">
         <div class="row">
             <th:block th:each="article : ${articles}">
@@ -11,7 +11,7 @@
                         <p th:text="${article.summary}"></p>
 
                         <small class="author" th:text="${article.author.fullName}"></small>
-                        <!-- <samll class="comments" th:text="${}}" -->
+                        <small class="viewed" th:text="${article.viewedCount}"></small>
                         <footer>
                             <div class="pull-right">
                                 <a class="btn btn-default btn-xs"
