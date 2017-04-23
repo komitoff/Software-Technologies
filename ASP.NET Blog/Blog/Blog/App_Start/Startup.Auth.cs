@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Blog.Models;
+using System.Data.Entity;
+using Blog.Migrations;
 
 namespace Blog
 {
@@ -14,6 +16,8 @@ namespace Blog
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            Database.SetInitializer(
+                new MigrateDatabaseToLatestVersion<BlogDBContext, Configuration>());
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(BlogDBContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
