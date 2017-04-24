@@ -6,20 +6,16 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Blog.Models;
-using System.Data.Entity;
-using Blog.Migrations;
 
 namespace Blog
 {
     public partial class Startup
     {
-        // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
+        // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            Database.SetInitializer(
-                new MigrateDatabaseToLatestVersion<BlogDBContext, Configuration>());
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(BlogDBContext.Create);
+            app.CreatePerOwinContext(BlogDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
