@@ -49,7 +49,7 @@
         <td>
             
             @Html.ActionLink("Details", "Details", new { id=item.ID }) 
-            @if (Request.IsAuthenticated) {
+            @if (User.IsInRole("User")) {
                 Html.ActionLink("Edit", "Edit", new { id = item.ID });
                 Html.ActionLink("Delete", "Delete", new { id = item.ID });
             }
